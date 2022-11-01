@@ -1,18 +1,52 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <ul id="array-rendering">
-      <li v-for="item in cars" :key="item.name">
-        <div @click="setCar(item.id)">{{ item.name }}</div>
-      </li>
-    </ul>
+
+<div class="hidden sm:block" aria-hidden="true">
+  <div class="py-5">
+    <div class="border-t border-gray-200"></div>
   </div>
-  <div>
-    <ShowCar @new-spec="null" :car="currentCar" :spec="this.spec" :key="currentCar"/>
+</div>
+
+<div class="mt-10 sm:mt-0">
+  <div class="md:grid md:grid-cols-3 md:gap-6">
+    <div class="md:col-span-1">
+      <div class="px-4 sm:px-0">
+        <h3 class="text-lg font-medium leading-6 text-gray-900">Cars Information</h3>
+        <p class="mt-1 text-sm text-gray-600">Select the car:</p>
+      </div>
+
+
+      <ul class="my-4">
+        <li v-for="item in cars" :key="item.name">
+          <button @click="setCar(item.id)" type="button" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            {{ item.name }}
+          </button>
+        </li>
+      </ul>
+
+    </div>
+    
+
+    <div class="mt-5 md:col-span-2 md:mt-0">
+        <div class="overflow-hidden shadow sm:rounded-md">
+          <div class="bg-white px-4 py-5 sm:p-6">
+            <div class="w-96 text-center">
+
+              <EditForm :car="currentCar" :spec="this.spec" :key="currentCar"/>
+
+              <div class="my-6">
+                <ShowCar @new-spec="null" :car="currentCar" :spec="this.spec" :key="currentCar"/>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+    </div>
+
+
   </div>
-  <div>
-    <EditForm :car="currentCar" :spec="this.spec" :key="currentCar"/>
-  </div>
+</div>
+
 </template>
 
 <script lang="ts">
@@ -30,7 +64,7 @@ export default defineComponent({
   name: 'MainPage',
 
   props: {
-    msg: String
+    // msg: String
   },
 
   data: () => {

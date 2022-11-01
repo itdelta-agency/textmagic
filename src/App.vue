@@ -1,6 +1,12 @@
-<template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <MainPage msg=""/>
+
+<template> 
+
+  <div class="text-center">
+    <img class="mx-auto" alt="Vue logo" src="./assets/logo.png"/>
+  </div>
+
+  <MainPage/>
+  
 </template>
 
 <script lang="ts">

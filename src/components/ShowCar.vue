@@ -2,14 +2,14 @@
   <div v-if="car?.name">
     <hr>
     <div>
-        id: {{car.id}}
+        <!-- id: {{car.id}} -->
       </div>
     <div class="hello">
-      name: {{ car.name }}
+      <!-- name: {{ car.name }} -->
     </div>
     <ul>
       <li v-for="field in spec" :key="field">
-        {{field}}: {{ car.spec[field] }}
+        <!-- {{field}}: {{ car.spec[field] }} -->
       </li>
     </ul>
   </div>
