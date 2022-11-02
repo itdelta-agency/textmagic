@@ -1,4 +1,9 @@
-type CarSpec = string[];
+type CarSpecItem = {
+   name: string, 
+   values: string[]
+};
+
+type CarSpec = CarSpecItem[];
 
 // export default class CarSpec {
 //    fields: string[];
@@ -8,4 +13,7 @@ type CarSpec = string[];
 //    }
 // }
 
-export default CarSpec;
+export { 
+   CarSpecItem,
+   CarSpec
+};

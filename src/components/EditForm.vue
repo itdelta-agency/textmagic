@@ -3,7 +3,7 @@
 
       <div class="col-span-6 sm:col-span-4">
         <label for="email-address" class="text-left block text-sm font-medium text-gray-700">Name: </label>
-        <input v-model="name" type="text" name="email-address" id="email-address" autocomplete="email" 
+        <input v-model="name" type="text"
           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
       </div>
 
@@ -11,8 +11,17 @@
         <li v-for="field in spec" :key="field">
 
           <div class="my-5 col-span-6 sm:col-span-4">
-            <label for="email-address" class="text-left block text-sm font-medium text-gray-700">{{field}}: </label>
-            <input v-model="fields[field]" type="text" name="{{field}}" id="email-address" autocomplete="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+            <label class="text-left block text-sm font-medium text-gray-700">{{field.name}}: </label>
+
+            <select name="specs" id="pet-select">
+              <option v-for="val in field.values" value="val" :key="val">{{val}}</option>
+          </select>
+            <!-- <div v-if="!field.type"> -->
+              <!-- <input v-model="fields[field]" type="text" name="{{field.name}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/> -->
+            <!-- </div> -->
+            <!-- <div v-if="">
+
+            </div> -->
           </div>
 
         </li>
@@ -39,7 +48,7 @@
 <script lang="ts">
 import Car from '../Domain/Car';
 // import {ISpec} from '../Domain/Car';
-import CarSpec from '../Domain/CarSpec';
+import {CarSpec} from '../Domain/CarSpec';
 import CarService from '../App/CarService';
 import { defineComponent } from 'vue';
 import { PropType } from 'vue'
@@ -62,28 +71,50 @@ export default defineComponent({
   methods: {
     saveData() {
       const carService = new CarService();
-      carService.updateCar(new Car(
-        this.id,
+      carService.createCar(new Car(
+        "",
         this.name,
         this.fields
       ));
-      this.$emit('updateCar');
+      this.$emit('newCar');
     },
 
     addSpec() {
       const carService = new CarService();
       if (this.newSpec) {
-        carService.addCarSpec(this.newSpec);
+        carService.addCarSpec({
+          name: this.newSpec,
+          values: ['empty value']
+        });
         this.newSpec = '';
         this.$emit('newSpec');
       }
-    }
+    },
+
+    // async getCarSpecValues(name: string) {
+    //   const carService = new CarService();
+    //   return await carService.getCarSpecValues(name);
+    // }
   },
 
-  emits: ['newSpec', 'updateCar'],
+  emits: ['newSpec', 'newCar'],
   mounted() {
     this.id = this.$props.car?.id ?? '';
     this.name = this.$props.car?.name ?? '';
+    // for (let e in this.$props.spec ?? {}) {
+    //   // @ts-ignore
+    //   const item = this.$props.spec[e];
+    //   this.getCarSpecValues(item).then(type => {
+    //     // @ts-ignore
+    //     this.fields[item] = {
+    //       values: type,
+    //       value: this.$props?.car?.spec[item]
+    //     };
+    //   });
+    // }
+
+    console.log(this.fields);
+
     this.$props.spec?.forEach(e => {
       // @ts-ignore
       this.fields[e] = this.$props?.car?.spec[e];
