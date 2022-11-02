@@ -77,6 +77,11 @@ export default defineComponent({
     async setCar(id: number) {
       const carService = new CarService();
       this.showDetail[id] = !this.showDetail[id];
+      this.showDetail.forEach((value: Boolean, i: number) => {
+        if (i !== id) {
+          this.showDetail[i] = false; 
+        }
+      })
       this.currentCar = await carService.getCar(id);
     },
     isDetailOpen(id: number) {
