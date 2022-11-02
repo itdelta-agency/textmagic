@@ -15,11 +15,14 @@
       </div>
 
 
-      <ul class="my-4">
-        <li v-for="item in cars" :key="item.name">
+      <ul class="my-4 flex flex-col justify-start">
+        <li v-for="item in cars" :key="item.name" class="pt-2">
           <button @click="setCar(item.id)" type="button" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             {{ item.name }}
           </button>
+          <div class="my-6" v-if="isDetailOpen(item.id)">
+              <ShowCar :id="item.id" :spec="this.spec"/>
+          </div>
         </li>
       </ul>
 
@@ -31,11 +34,7 @@
           <div class="bg-white px-4 py-5 sm:p-6">
             <div class="w-96 text-center">
 
-              <EditForm :car="currentCar" :spec="this.spec" :key="currentCar"/>
-
-              <div class="my-6">
-                <ShowCar @new-spec="null" :car="currentCar" :spec="this.spec" :key="currentCar"/>
-              </div>
+              <EditForm @newSpec="this.getSpec()" :car="currentCar" :spec="this.spec" :key="currentCar"/>
 
             </div>
           </div>
@@ -70,15 +69,28 @@ export default defineComponent({
   data: () => {
     return {
       currentCar: {},
+      showDetail: [] as Boolean[],
+      spec: [] as CarSpec[]
     }
   },
 
   methods: {
-    async setCar(id: string) {
+    async setCar(id: number) {
       const carService = new CarService();
+      this.showDetail[id] = !this.showDetail[id];
       this.currentCar = await carService.getCar(id);
+    },
+    isDetailOpen(id: number) {
+      return this.showDetail[id] === true;
+    },
+    async getSpec() {
+      const carService = new CarService();
+      this.spec = JSON.parse(JSON.stringify(await carService.getCarSpec()));
     }
   },
+  mounted() {
+    this.getSpec();
+  },  
 
   setup() {
     const carService = new CarService();
@@ -88,19 +100,12 @@ export default defineComponent({
       cars.value = await carService.getCars();
     }
 
-    let spec = ref<CarSpec>();
-    const getSpec = async () => {
-      spec.value = await carService.getCarSpec();
-    }
-
     onMounted(()=>{
       getCars();
-      getSpec();
     });
 
     return {
       cars,
-      spec
     } 
   },
 

@@ -67,19 +67,20 @@ export default defineComponent({
         this.name,
         this.fields
       ));
+      this.$emit('updateCar');
     },
 
     addSpec() {
       const carService = new CarService();
       if (this.newSpec) {
         carService.addCarSpec(this.newSpec);
+        this.newSpec = '';
         this.$emit('newSpec');
       }
     }
   },
 
-  emits: ['newSpec'],
-
+  emits: ['newSpec', 'updateCar'],
   mounted() {
     this.id = this.$props.car?.id ?? '';
     this.name = this.$props.car?.name ?? '';
