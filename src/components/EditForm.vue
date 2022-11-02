@@ -13,9 +13,9 @@
           <div class="my-5 col-span-6 sm:col-span-4">
             <label class="text-left block text-sm font-medium text-gray-700">{{field.name}}: </label>
 
-            <select name="specs" id="pet-select" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              <option v-for="val in field.values" value="val" :key="val">{{val}}</option>
-          </select>
+            <select @change="addField($event, field.name)" v-model="this.fields[field.name]" name="specs" id="pet-select" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <option v-for="val in field.values" :value="val" :key="val">{{val}}</option>
+            </select>
             <!-- <div v-if="!field.type"> -->
               <!-- <input v-model="fields[field]" type="text" name="{{field.name}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/> -->
             <!-- </div> -->
@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import Car from '../Domain/Car';
+import Car, { ISpec } from '../Domain/Car';
 // import {ISpec} from '../Domain/Car';
 import {CarSpec} from '../Domain/CarSpec';
 import CarService from '../App/CarService';
@@ -65,15 +65,21 @@ export default defineComponent({
     id: 0,
     name: '',
     newSpec: '',
-    fields: {} //Object as PropType<ISpec>,
+    fields: [] as ISpec[],
   }),
 
   methods: {
+    addField(e: any, field: any) {
+      this.fields[field] = e.target.value
+    },  
+
     saveData() {
       const carService = new CarService();
+ 
       carService.createCar(new Car(
         0,
         this.name,
+        // @ts-ignore
         this.fields
       ));
       this.$emit('newCar');
@@ -117,7 +123,7 @@ export default defineComponent({
 
     this.$props.spec?.forEach(e => {
       // @ts-ignore
-      this.fields[e] = this.$props?.car?.spec[e];
+      this.fields[e.name] = this.$props?.car?.spec[e.name];
     })
   }
 })

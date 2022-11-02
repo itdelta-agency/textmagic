@@ -7,10 +7,8 @@
         <span class="block px-4 py-2 border-b border-gray-200 w-full hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700">name: {{car.name}}</span>
     </div>
     <ul>
-        <li v-for="field in spec" :key="field">
-          <span class="block px-4 py-2 border-b border-gray-200 w-full hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700" v-if="car.spec[field.name]">
-            {{field.name}} : {{car.spec[field.name]}}
-          </span>
+        <li v-for="field in spec" :key="field" class="block px-4 py-2 border-b border-gray-200 w-full hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700">
+          {{field.name}} : {{car.spec[field.name]}}
         </li>
     </ul>
   </div>
@@ -47,7 +45,6 @@ export default defineComponent({
     async getCar(id: number) {
       const carService = new CarService();
       this.car = await carService.getCar(id);
-      console.log(this.car.spec)
     },
   },
   mounted() {
