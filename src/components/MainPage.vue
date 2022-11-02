@@ -51,7 +51,7 @@
 
 <script lang="ts">
 import Car from '../Domain/Car';
-import CarSpec from '../Domain/CarSpec';
+import {CarSpec} from '../Domain/CarSpec';
 import CarService from '../App/CarService';
 import { defineComponent, onMounted } from 'vue';
 import { ref } from 'vue';

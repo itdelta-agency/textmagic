@@ -1,17 +1,26 @@
 import Car, { ISpec } from '../Domain/Car';
-import CarSpec from '../Domain/CarSpec';
+import {CarSpec, CarSpecItem} from '../Domain/CarSpec';
 
 let data: Car[] = [
-   new Car('1','Car1', {color: 'black',spec2: 'spec2'}),
-   new Car('2','Car2', {color: 'white',spec2: 'spec2'}),
+   new Car('1','Car1', {Color: 'black',Engine: 'V6 3.5L'}),
+   new Car('2','Car2', {Color: 'white',Engine: 'V4 2.0L'}),
    new Car('3','Car3', {}),
 ];
 
-const spec:CarSpec = 
+let spec:CarSpec = 
    [
-      'color',
-      'spec2',
-      'spec3'
+      {
+         name: 'Color',
+         values: ['black', 'white']
+      },
+      {
+         name: 'Engine',
+         values: ['V6 3.5L', 'V4 2.0L']
+      },
+      {
+         name: 'Weel',
+         values: ['20', '21']
+      }
    ];
 
 export default class CarService {
@@ -34,7 +43,12 @@ export default class CarService {
 
    createCar(car: Car): Promise<string> {
       return new Promise<string>((resolve, reject) => {
-         resolve('4'); // new id
+         const lastId = Math.max(Number(data.map(e => e.id)));
+         const newId = lastId + 1;
+         car.id = String(newId);
+         data.push(car);
+         resolve(car.id);
+
       });
    }
 
@@ -54,9 +68,9 @@ export default class CarService {
       })
    }
 
-   addCarSpec(val: string): Promise<boolean> {
+   addCarSpec(val: CarSpecItem): Promise<boolean> {
       return new Promise<boolean>((resolve, reject) => {
-         spec.push(val);
+         spec = [...spec.filter(e => e.name !== val.name), val];
          resolve(true);
       })
    }

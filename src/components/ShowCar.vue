@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import Car from '../Domain/Car';
-import CarSpec from '../Domain/CarSpec';
+import {CarSpec} from '../Domain/CarSpec';
 import { defineComponent } from 'vue';
 import { PropType } from 'vue'
 
