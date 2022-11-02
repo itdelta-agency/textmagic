@@ -62,7 +62,7 @@ export default defineComponent({
   },
 
   data: () => ({
-    id: '',
+    id: 0,
     name: '',
     newSpec: '',
     fields: {} //Object as PropType<ISpec>,
@@ -72,7 +72,7 @@ export default defineComponent({
     saveData() {
       const carService = new CarService();
       carService.createCar(new Car(
-        "",
+        0,
         this.name,
         this.fields
       ));
@@ -99,7 +99,7 @@ export default defineComponent({
 
   emits: ['newSpec', 'newCar'],
   mounted() {
-    this.id = this.$props.car?.id ?? '';
+    this.id = this.$props.car?.id ?? 0;
     this.name = this.$props.car?.name ?? '';
     // for (let e in this.$props.spec ?? {}) {
     //   // @ts-ignore
