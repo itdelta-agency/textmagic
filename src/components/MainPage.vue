@@ -21,7 +21,7 @@
             {{ item.name }}
           </button>
           <div class="my-6" v-if="isDetailOpen(item.id)">
-              <ShowCar :id="item.id" :spec="this.spec"/>
+              <ShowCar :update="updateShowing" :id="item.id" :spec="this.spec"/>
           </div>
         </li>
       </ul>
@@ -34,7 +34,10 @@
           <div class="bg-white px-4 py-5 sm:p-6">
             <div class="w-96 text-center">
 
-              <EditForm @newSpec="this.getSpec()" @newCar="getCars()" :car="currentCar" :spec="this.spec" :key="currentCar"/>
+              <EditForm @newSpec="this.getSpec()" @newCar="()=>{
+                getCars();
+                this.updateShowing = !this.updateShowing
+                }" :car="currentCar" :spec="this.spec" :key="currentCar"/>
 
             </div>
           </div>
@@ -70,6 +73,7 @@ export default defineComponent({
     return {
       currentCar: {},
       showDetail: [] as Boolean[],
+      updateShowing: false
     }
   },
 

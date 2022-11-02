@@ -1,6 +1,7 @@
 type CarSpecItem = {
-   name: string, 
-   values: string[]
+   name: string,
+   type: string, // todo enum
+   values: string[]|string
 };
 
 type CarSpec = CarSpecItem[];

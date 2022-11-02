@@ -31,6 +31,7 @@ export default defineComponent({
       type: Number,
       required: true
     },
+    update: Boolean,
     show: Boolean,
     spec: Object as PropType<CarSpec>
   },
@@ -38,6 +39,11 @@ export default defineComponent({
     return {
       car: {} as Car,
       fields: {}
+    }
+  },
+  watch: {
+    update() {
+      this.getCar(this.id)
     }
   },
 

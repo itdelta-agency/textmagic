@@ -10,16 +10,34 @@ let data: Car[] = [
 let spec:CarSpec = 
    [
       {
-         name: 'Color',
-         values: ['black', 'white']
-      },
-      {
          name: 'Engine',
+         type: 'array',
          values: ['V6 3.5L', 'V4 2.0L']
       },
       {
-         name: 'Weel',
+         name: 'Interior materials',
+         type: 'array',
          values: ['20', '21']
+      },
+      {
+         name: 'Color',
+         type: 'array',
+         values: ['black', 'white']
+      },
+      {
+         name: 'Weel rims',
+         type: 'array',
+         values: ['20', '21']
+      },
+      {
+         name: 'Air suspension',
+         type: 'boolean',
+         values: ['true', 'false']
+      },
+      {
+         name: 'Signature on hood',
+         type: 'string',
+         values: ''
       }
    ];
 
