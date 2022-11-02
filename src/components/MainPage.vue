@@ -34,7 +34,7 @@
           <div class="bg-white px-4 py-5 sm:p-6">
             <div class="w-96 text-center">
 
-              <EditForm @newSpec="this.getSpec()" :car="currentCar" :spec="this.spec" :key="currentCar"/>
+              <EditForm @newSpec="this.getSpec()" @newCar="getCars()" :car="currentCar" :spec="this.spec" :key="currentCar"/>
 
             </div>
           </div>
@@ -70,7 +70,6 @@ export default defineComponent({
     return {
       currentCar: {},
       showDetail: [] as Boolean[],
-      spec: [] as CarSpec[]
     }
   },
 
@@ -83,10 +82,6 @@ export default defineComponent({
     isDetailOpen(id: number) {
       return this.showDetail[id] === true;
     },
-    async getSpec() {
-      const carService = new CarService();
-      this.spec = JSON.parse(JSON.stringify(await carService.getCarSpec()));
-    }
   },
   mounted() {
     this.getSpec();
@@ -97,15 +92,24 @@ export default defineComponent({
 
     let cars = ref<Car[]>([]);
     const getCars = async () => {
-      cars.value = await carService.getCars();
+      cars.value = JSON.parse(JSON.stringify(await carService.getCars()));
+    }
+
+    let spec = ref<CarSpec>();
+    const getSpec = async () => {
+      spec.value = JSON.parse(JSON.stringify(await carService.getCarSpec()));
     }
 
     onMounted(()=>{
       getCars();
+      getSpec()
     });
 
     return {
       cars,
+      spec,
+      getCars,
+      getSpec
     } 
   },
 
