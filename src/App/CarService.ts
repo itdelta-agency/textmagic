@@ -2,9 +2,9 @@ import Car, { ISpec } from '../Domain/Car';
 import {CarSpec, CarSpecItem} from '../Domain/CarSpec';
 
 let data: Car[] = [
-   new Car('1','Car1', {Color: 'black',Engine: 'V6 3.5L'}),
-   new Car('2','Car2', {Color: 'white',Engine: 'V4 2.0L'}),
-   new Car('3','Car3', {}),
+   new Car(1,'Car1', {Color: 'black',Engine: 'V6 3.5L'}),
+   new Car(2,'Car2', {Color: 'white',Engine: 'V4 2.0L'}),
+   new Car(3,'Car3', {}),
 ];
 
 let spec:CarSpec = 
@@ -31,7 +31,7 @@ export default class CarService {
       })
    }
 
-   getCar(id: any): Promise<Car> {
+   getCar(id: number): Promise<Car> {
       return new Promise<Car>((resolve, reject) => {
          const car:Car|undefined = data.find(e => e.id == id);
          if (car)
@@ -41,11 +41,11 @@ export default class CarService {
       });
    }
 
-   createCar(car: Car): Promise<string> {
-      return new Promise<string>((resolve, reject) => {
-         const lastId = Math.max(Number(data.map(e => e.id)));
+   createCar(car: Car): Promise<number> {
+      return new Promise<number>((resolve, reject) => {
+         const lastId = Math.max(...data.map(e => e.id));
          const newId = lastId + 1;
-         car.id = String(newId);
+         car.id = newId;
          data.push(car);
          resolve(car.id);
 
