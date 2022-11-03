@@ -1,5 +1,5 @@
 import Car, { ISpec } from '../Domain/Car';
-import {CarSpec, CarSpecItem} from '../Domain/CarSpec';
+import {CarSpec, CarSpecItem, SpecType} from '../Domain/CarSpec';
 
 let data: Car[] = [
    new Car(1,'Car1', {Color: 'black',Engine: 'V6 3.5L'}),
@@ -11,32 +11,32 @@ let spec:CarSpec =
    [
       {
          name: 'Engine',
-         type: 'array',
+         type: SpecType.ARRAY,
          values: ['V6 3.5L', 'V4 2.0L']
       },
       {
          name: 'Interior materials',
-         type: 'array',
+         type: SpecType.ARRAY,
          values: ['20', '21']
       },
       {
          name: 'Color',
-         type: 'array',
+         type: SpecType.ARRAY,
          values: ['black', 'white']
       },
       {
          name: 'Weel rims',
-         type: 'array',
+         type: SpecType.ARRAY,
          values: ['20', '21']
       },
       {
          name: 'Air suspension',
-         type: 'boolean',
+         type: SpecType.BOOLEAN,
          values: ['true', 'false']
       },
       {
          name: 'Signature on hood',
-         type: 'string',
+         type: SpecType.STRING,
          values: ''
       }
    ];
@@ -71,7 +71,6 @@ export default class CarService {
    }
 
    updateCar(car: Car): Promise<boolean> {
-      console.log(car);
       return new Promise<boolean>((resolve, reject) => {
          data = [...data.filter(e => e.id !== car.id), car];
          resolve(true);

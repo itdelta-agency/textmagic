@@ -21,7 +21,7 @@
             {{ item.name }}
           </button>
           <div class="my-6" v-if="isDetailOpen(item.id)">
-              <ShowCar :update="updateShowing" :id="item.id" :spec="this.spec"/>
+              <ShowCar :update="updateShowing" :id="item.id" :spec="spec"/>
           </div>
         </li>
       </ul>
@@ -29,15 +29,22 @@
     </div>
     
 
-    <div class="mt-5 md:col-span-2 md:mt-0">
+    <div class="mt-5 md:col-span-1 justify-self-center md:mt-0">
         <div class="overflow-hidden shadow sm:rounded-md">
           <div class="bg-white px-4 py-5 sm:p-6">
             <div class="w-96 text-center">
+              <EditForm @newSpec="getSpec()" @newCar="handleUpdate()" :car="currentCar" :spec="spec" :key="currentCar"/>
+            </div>
+          </div>
 
-              <EditForm @newSpec="this.getSpec()" @newCar="()=>{
-                getCars();
-                this.updateShowing = !this.updateShowing
-                }" :car="currentCar" :spec="this.spec" :key="currentCar"/>
+        </div>
+    </div>
+
+    <div class="mt-5 md:col-span-1 justify-self-center md:mt-0">
+        <div class="overflow-hidden shadow sm:rounded-md">
+          <div class="bg-white px-4 py-5 sm:p-6">
+            <div class="w-96 text-center">
+              <AddSpec :show="true" @newSpec="getSpec()"/>
 
             </div>
           </div>
@@ -59,9 +66,9 @@ import { defineComponent, onMounted } from 'vue';
 import { ref } from 'vue';
 import ShowCar from './ShowCar.vue';
 import EditForm from './EditForm.vue';
-
+import AddSpec from './AddSpec.vue';
 export default defineComponent({
-  components: { ShowCar, EditForm },
+  components: { ShowCar, EditForm, AddSpec },
 
   name: 'MainPage',
 
@@ -71,13 +78,17 @@ export default defineComponent({
 
   data: () => {
     return {
-      currentCar: {},
+      currentCar: {} as Car,
       showDetail: [] as Boolean[],
       updateShowing: false
     }
   },
 
   methods: {
+    handleUpdate() {
+      this.getCars();
+      this.updateShowing = !this.updateShowing
+    },
     async setCar(id: number) {
       const carService = new CarService();
       this.showDetail[id] = !this.showDetail[id];

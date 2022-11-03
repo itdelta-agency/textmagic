@@ -1,7 +1,13 @@
+enum SpecType {
+   ARRAY = 'array',
+   BOOLEAN = 'boolean',
+   STRING = 'string'
+}
+
 type CarSpecItem = {
    name: string,
-   type: string, // todo enum
-   values: string[]|string
+   type: SpecType,
+   values: string[] | string
 };
 
 type CarSpec = CarSpecItem[];
@@ -16,5 +22,6 @@ type CarSpec = CarSpecItem[];
 
 export { 
    CarSpecItem,
-   CarSpec
+   CarSpec,
+   SpecType
 };

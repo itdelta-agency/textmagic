@@ -7,8 +7,8 @@
         <span class="block px-4 py-2 border-b border-gray-200 w-full hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700">name: {{car.name}}</span>
     </div>
     <ul>
-        <li v-for="field in spec" :key="field" class="block px-4 py-2 border-b border-gray-200 w-full hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700">
-          {{field.name}} : {{car.spec[field.name]}}
+        <li v-for="field in spec" :key="field.name" class="block px-4 py-2 border-b border-gray-200 w-full hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700">
+          {{field.name}}: {{car.spec[field.name]}}
         </li>
     </ul>
   </div>
@@ -38,7 +38,6 @@ export default defineComponent({
   data() {
     return {
       car: {} as Car,
-      fields: {}
     }
   },
   watch: {
@@ -50,15 +49,11 @@ export default defineComponent({
   methods: {
     async getCar(id: number) {
       const carService = new CarService();
-      this.car = await carService.getCar(id);
+      this.car = JSON.parse(JSON.stringify(await carService.getCar(id)));
     },
   },
   mounted() {
     this.getCar(this.id)
-    this.$props.spec?.forEach(e => {
-      // @ts-ignore
-      this.fields[e] = this.$props?.car?.spec[e];
-    })
   }
 
 })
